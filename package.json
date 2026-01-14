@@ -1,0 +1,36 @@
+{
+  "name": "zen-reader",
+  "displayName": "Zen Reader",
+  "description": "Zen Reader VS Code extension.",
+  "version": "0.0.1",
+  "publisher": "zenreader",
+  "packageManager": "pnpm@10.17.0",
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "activationEvents": [
+    "onCommand:zenReader.hello"
+  ],
+  "main": "./out/extension.js",
+  "contributes": {
+    "commands": [
+      {
+        "command": "zenReader.hello",
+        "title": "Zen Reader: Hello"
+      }
+    ]
+  },
+  "scripts": {
+    "vscode:prepublish": "npm run compile",
+    "compile": "tsc -p .",
+    "watch": "tsc -watch -p ."
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/vscode": "^1.90.0",
+    "typescript": "^5.6.3"
+  }
+}
