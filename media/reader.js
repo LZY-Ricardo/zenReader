@@ -122,7 +122,7 @@
   elPrevPage.addEventListener("click", () => pagedScrollBy(-1));
   elNextPage.addEventListener("click", () => pagedScrollBy(+1));
 
-  elPaged.addEventListener("scroll", () => scheduleProgressSave());
+  elPagedChapter.addEventListener("scroll", () => scheduleProgressSave());
   elScroll.addEventListener("scroll", () => {
     maybeLoadNextChapter();
     scheduleProgressSave();
@@ -294,7 +294,7 @@
 
       const pageIndex = pending.anchor?.type === "paged" ? pending.anchor.pageIndex : 0;
       requestAnimationFrame(() => {
-        elPaged.scrollLeft = Math.max(0, pageIndex) * elPaged.clientWidth;
+        elPagedChapter.scrollLeft = Math.max(0, pageIndex) * elPaged.clientWidth;
         scheduleProgressSave(true);
       });
       return;
@@ -367,7 +367,7 @@
   function pagedScrollBy(direction) {
     if (state.mode === "paged") {
       const delta = elPaged.clientWidth * direction;
-      elPaged.scrollLeft += delta;
+      elPagedChapter.scrollLeft += delta;
       scheduleProgressSave(true);
       return;
     }
@@ -591,7 +591,8 @@
 
   function getCurrentAnchor() {
     if (state.mode === "paged") {
-      const pageIndex = elPaged.clientWidth > 0 ? Math.round(elPaged.scrollLeft / elPaged.clientWidth) : 0;
+      const pageIndex =
+        elPaged.clientWidth > 0 ? Math.round(elPagedChapter.scrollLeft / elPaged.clientWidth) : 0;
       const chapterId = state.currentChapterId;
       return { chapterId, anchor: { type: "paged", pageIndex: Math.max(0, pageIndex) } };
     }

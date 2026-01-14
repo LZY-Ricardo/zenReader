@@ -12,10 +12,15 @@ body {
 body {
   padding: 0;
   margin: 0;
+  overflow: hidden;
   color: var(--vscode-foreground);
   background: var(--vscode-editor-background);
   font-size: var(--zr-font-size);
   font-family: var(--vscode-font-family);
+}
+
+#app {
+  height: 100%;
 }
 
 button,
@@ -89,17 +94,23 @@ input {
 }
 
 .zr-reader--paged {
-  overflow-x: auto;
-  overflow-y: hidden;
-  scroll-behavior: smooth;
+  overflow: hidden;
 }
 
 .zr-reader--paged .zr-chapter {
   box-sizing: border-box;
   height: 100%;
+  width: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
   column-width: var(--zr-page-width, 260px);
   column-gap: 0;
   column-fill: auto;
+}
+
+.zr-reader--paged .zr-chapter::-webkit-scrollbar {
+  height: 0;
 }
 
 .zr-reader--scroll {
