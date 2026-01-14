@@ -1,6 +1,6 @@
 ## Zen Reader VS Code 插件
 
-这是一个最小可运行的 VS Code 扩展骨架（TypeScript）。当前提供一个示例命令：`Zen Reader: Hello`。
+一个在 VS Code 侧边栏阅读 TXT 小说的扩展（MVP 实现中）。
 
 ### 开发文档
 
@@ -11,8 +11,15 @@
 1. 安装依赖：
    - `pnpm install`
 2. 在 VS Code 中按 `F5` 运行（会打开一个 Extension Development Host 窗口）。
-3. 在命令面板（`Ctrl+Shift+P`）执行：
-   - `Zen Reader: Hello`
+3. 在新窗口左侧 Activity Bar 点击 `Zen Reader` 图标，进入 `Reader` 面板后点击“导入”选择 TXT。
+
+### 使用方式（当前）
+
+- 侧边栏：书籍下拉切换、导入/移除、目录跳转、书签
+- 阅读模式：
+  - 分页：左右翻页（底部 ◀ ▶）
+  - 滚动：连续下滚，接近底部自动加载下一章
+- 可选：点击“编辑区”在编辑区打开阅读面板（侧边栏与编辑区共享同一份本机数据）
 
 ### 打包（可选）
 

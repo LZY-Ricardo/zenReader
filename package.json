@@ -6,25 +6,55 @@
   "publisher": "zenreader",
   "packageManager": "pnpm@10.17.0",
   "engines": {
-    "vscode": "^1.90.0"
+    "vscode": "^1.80.0"
   },
   "categories": [
     "Other"
   ],
   "activationEvents": [
-    "onCommand:zenReader.hello"
+    "onStartupFinished",
+    "onView:zenReader.reader",
+    "onCommand:zenReader.focus",
+    "onCommand:zenReader.importTxt",
+    "onCommand:zenReader.openInEditor"
   ],
   "main": "./out/extension.js",
   "contributes": {
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "zenReader",
+          "title": "Zen Reader",
+          "icon": "media/zenReader.svg"
+        }
+      ]
+    },
+    "views": {
+      "zenReader": [
+        {
+          "id": "zenReader.reader",
+          "name": "Reader",
+          "type": "webview"
+        }
+      ]
+    },
     "commands": [
       {
-        "command": "zenReader.hello",
-        "title": "Zen Reader: Hello"
+        "command": "zenReader.focus",
+        "title": "Zen Reader: Focus"
+      },
+      {
+        "command": "zenReader.importTxt",
+        "title": "Zen Reader: Import TXT"
+      },
+      {
+        "command": "zenReader.openInEditor",
+        "title": "Zen Reader: Open In Editor"
       }
     ]
   },
   "scripts": {
-    "vscode:prepublish": "npm run compile",
+    "vscode:prepublish": "pnpm run compile",
     "compile": "tsc -p .",
     "watch": "tsc -watch -p ."
   },

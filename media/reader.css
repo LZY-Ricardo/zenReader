@@ -1,0 +1,266 @@
+:root {
+  --zr-font-size: 16px;
+  --zr-padding: 12px;
+  --zr-gap: 12px;
+}
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  padding: 0;
+  margin: 0;
+  color: var(--vscode-foreground);
+  background: var(--vscode-editor-background);
+  font-size: var(--zr-font-size);
+  font-family: var(--vscode-font-family);
+}
+
+button,
+select,
+input {
+  font: inherit;
+}
+
+.zr {
+  display: grid;
+  grid-template-rows: auto 1fr;
+  height: 100%;
+}
+
+.zr-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 8px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+}
+
+.zr-toolbar select {
+  flex: 1;
+  min-width: 0;
+}
+
+.zr-toolbar button {
+  padding: 4px 8px;
+  border: 1px solid var(--vscode-input-border);
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.zr-toolbar button.primary {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border-color: transparent;
+}
+
+.zr-toolbar button.active {
+  outline: 2px solid var(--vscode-focusBorder);
+  outline-offset: 0;
+}
+
+.zr-toolbar button:disabled,
+.zr-toolbar select:disabled,
+.zr-toolbar input:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.zr-main {
+  position: relative;
+  height: 100%;
+}
+
+.zr-empty {
+  padding: var(--zr-padding);
+  opacity: 0.85;
+}
+
+.zr-reader {
+  height: 100%;
+}
+
+.zr-reader.hidden {
+  display: none;
+}
+
+.zr-reader--paged {
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-behavior: smooth;
+}
+
+.zr-reader--paged .zr-chapter {
+  box-sizing: border-box;
+  height: 100%;
+  column-width: var(--zr-page-width, 260px);
+  column-gap: 0;
+  column-fill: auto;
+}
+
+.zr-reader--scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.zr-reader--scroll .zr-scroll-wrap {
+  padding: var(--zr-padding);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.zr-chapter-title {
+  margin: 0 0 10px 0;
+  font-size: 1.05em;
+  opacity: 0.95;
+}
+
+.zr-chapter p {
+  margin: 0 0 0.9em 0;
+  line-height: 1.7;
+}
+
+.zr-reader--paged .zr-chapter-title {
+  margin: var(--zr-padding) var(--zr-padding) 10px var(--zr-padding);
+}
+
+.zr-reader--paged .zr-chapter p {
+  margin: 0 var(--zr-padding) 0.9em var(--zr-padding);
+}
+
+.zr-footer {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  padding: 6px 8px;
+  border-top: 1px solid var(--vscode-panel-border);
+  background: color-mix(in srgb, var(--vscode-editor-background) 92%, transparent);
+  backdrop-filter: blur(6px);
+}
+
+.zr-footer .zr-spacer {
+  flex: 1;
+}
+
+.zr-footer button {
+  padding: 4px 8px;
+  border: 1px solid var(--vscode-input-border);
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.zr-footer button:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.zr-footer button.active {
+  outline: 2px solid var(--vscode-focusBorder);
+  outline-offset: 0;
+}
+
+.zr-footer button.primary {
+  background: var(--vscode-button-background);
+  color: var(--vscode-button-foreground);
+  border-color: transparent;
+}
+
+.zr-drawer {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: min(320px, 92%);
+  background: var(--vscode-editor-background);
+  border-left: 1px solid var(--vscode-panel-border);
+  box-shadow: -6px 0 18px rgba(0, 0, 0, 0.25);
+  transform: translateX(102%);
+  transition: transform 120ms ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.zr-drawer.open {
+  transform: translateX(0);
+}
+
+.zr-drawer-header {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 8px;
+  border-bottom: 1px solid var(--vscode-panel-border);
+}
+
+.zr-drawer-header h4 {
+  margin: 0;
+  font-size: 0.95em;
+  flex: 1;
+}
+
+.zr-drawer-header button {
+  padding: 4px 8px;
+  border: 1px solid var(--vscode-input-border);
+  background: var(--vscode-button-secondaryBackground);
+  color: var(--vscode-button-secondaryForeground);
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.zr-drawer-body {
+  overflow: auto;
+}
+
+.zr-list {
+  display: flex;
+  flex-direction: column;
+}
+
+.zr-list button {
+  padding: 8px 10px;
+  border: 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--vscode-panel-border) 70%, transparent);
+  text-align: left;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+
+.zr-list button:hover {
+  background: color-mix(in srgb, var(--vscode-list-hoverBackground) 70%, transparent);
+}
+
+.zr-list button.active {
+  background: color-mix(in srgb, var(--vscode-list-activeSelectionBackground) 65%, transparent);
+  color: var(--vscode-list-activeSelectionForeground);
+}
+
+.zr-list-item-row {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.zr-list-item-row .grow {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.zr-mini {
+  opacity: 0.85;
+  font-size: 0.9em;
+}
