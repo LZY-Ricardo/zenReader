@@ -16,7 +16,7 @@ import { textToHtml } from "./web/textToHtml";
 export class ReaderViewProvider implements vscode.WebviewViewProvider {
   public static readonly viewType = "zenReader.reader";
 
-  private view?: vscode.WebviewView;
+  public view?: vscode.WebviewView;
   private editorPanel?: vscode.WebviewPanel;
 
   constructor(

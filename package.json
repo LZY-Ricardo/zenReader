@@ -64,6 +64,17 @@
       {
         "command": "zenReader.openInEditor",
         "title": "Zen Reader: Open In Editor"
+      },
+      {
+        "command": "zenReader.toggle",
+        "title": "Zen Reader: Toggle Panel"
+      }
+    ],
+    "keybindings": [
+      {
+        "command": "zenReader.toggle",
+        "key": "ctrl+shift+z",
+        "mac": "cmd+shift+z"
       }
     ]
   },

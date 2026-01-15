@@ -49,6 +49,27 @@ export function activate(context: vscode.ExtensionContext) {
       })
     );
 
+    context.subscriptions.push(
+      vscode.commands.registerCommand("zenReader.toggle", async () => {
+        // 检查侧边栏是否可见且 Zen Reader 容器是否活跃
+        const activeView = vscode.window.activeTextEditor;
+        const sidebarVisible = vscode.window.visibleTextEditors.some(editor =>
+          editor.document.uri.scheme === 'webview'
+        );
+
+        // 尝试获取当前侧边栏视图
+        const sidebarView = (vscode.window as any).activeViewColumn;
+
+        // 如果侧边栏可见且可能是 Zen Reader，则隐藏
+        if (sidebarView === 2 || (sidebarView === undefined && readerProvider.view?.visible)) {
+          await vscode.commands.executeCommand("workbench.action.closeSidebar");
+        } else {
+          // 否则显示 Zen Reader
+          await vscode.commands.executeCommand("workbench.view.extension.zenReader");
+        }
+      })
+    );
+
     log.appendLine("[activate] done");
   } catch (err) {
     const message = err instanceof Error ? err.stack ?? err.message : String(err);
