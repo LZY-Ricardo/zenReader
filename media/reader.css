@@ -166,7 +166,7 @@ input {
 
 .zr-reader--paged .zr-chapter-title {
   margin: 12px var(--zr-padding) 10px var(--zr-padding);
-  margin-top: calc(var(--zr-padding) + 12px);
+  margin-top: calc(var(--zr-padding));
 }
 
 .zr-reader--paged .zr-chapter p {

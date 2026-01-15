@@ -129,16 +129,119 @@
   elPrevPage.addEventListener("click", () => pagedScrollBy(-1));
   elNextPage.addEventListener("click", () => pagedScrollBy(+1));
 
-  // 点击阅读区域切换工具栏显示/隐藏
+  // 点击阅读区域切换工具栏显示/隐藏，或点击边缘翻页（仅分页模式）
   elPaged.addEventListener("click", (e) => {
-    // 如果点击的是按钮等可交互元素,不切换
+    // 如果点击的是按钮等可交互元素,不处理
     if (e.target.tagName === "BUTTON" || e.target.closest("button")) return;
+
+    // 分页模式下，检测是否点击边缘区域进行翻页
+    if (state.mode === "paged") {
+      const rect = elPaged.getBoundingClientRect();
+      const clickX = e.clientX - rect.left;
+      const edgeWidth = rect.width * 0.2; // 左右各 20% 为边缘区域
+
+      if (clickX < edgeWidth) {
+        // 点击左边缘：上一页
+        pagedScrollBy(-1);
+        return;
+      } else if (clickX > rect.width - edgeWidth) {
+        // 点击右边缘：下一页
+        pagedScrollBy(+1);
+        return;
+      }
+    }
+
+    // 中间区域：切换工具栏显示/隐藏
     toggleUiVisibility();
   });
 
   elScroll.addEventListener("click", (e) => {
     if (e.target.tagName === "BUTTON" || e.target.closest("button")) return;
     toggleUiVisibility();
+  });
+
+  // 键盘快捷键
+  document.addEventListener("keydown", (e) => {
+    // 如果焦点在输入框或按钮上，不处理快捷键
+    const tag = document.activeElement?.tagName;
+    if (tag === "INPUT" || tag === "SELECT" || tag === "BUTTON" || tag === "TEXTAREA") return;
+
+    // 分页模式快捷键
+    if (state.mode === "paged") {
+      switch (e.key) {
+        case "ArrowLeft":
+          e.preventDefault();
+          pagedScrollBy(-1);
+          break;
+        case "ArrowRight":
+          e.preventDefault();
+          pagedScrollBy(+1);
+          break;
+        case " ":
+          e.preventDefault();
+          pagedScrollBy(+1);
+          break;
+        case "Home":
+          e.preventDefault();
+          // 跳转到章节开头
+          elPagedChapter.scrollLeft = 0;
+          scheduleProgressSave(true);
+          break;
+        case "End":
+          e.preventDefault();
+          // 跳转到章节末尾
+          elPagedChapter.scrollLeft = elPagedChapter.scrollWidth;
+          scheduleProgressSave(true);
+          break;
+      }
+    }
+
+    // 滚动模式快捷键
+    if (state.mode === "scroll") {
+      switch (e.key) {
+        case "ArrowLeft":
+        case "ArrowRight":
+          // 滚动模式下左右箭头不处理
+          break;
+        case " ":
+          e.preventDefault();
+          const step = Math.max(120, Math.round(elScroll.clientHeight * 0.9));
+          elScroll.scrollTop += step;
+          maybeLoadNextChapter();
+          scheduleProgressSave(true);
+          break;
+      }
+    }
+
+    // 通用快捷键（两种模式都支持）
+    switch (e.key) {
+      case "PageUp":
+        e.preventDefault();
+        jumpChapter(-1);
+        break;
+      case "PageDown":
+        e.preventDefault();
+        jumpChapter(+1);
+        break;
+      case "Escape":
+        e.preventDefault();
+        toggleUiVisibility();
+        break;
+    }
+
+    // Shift 组合键
+    if (e.shiftKey) {
+      if (e.key === " ") {
+        e.preventDefault();
+        if (state.mode === "paged") {
+          pagedScrollBy(-1);
+        } else {
+          const step = Math.max(120, Math.round(elScroll.clientHeight * 0.9));
+          elScroll.scrollTop -= step;
+          scheduleProgressSave(true);
+        }
+      }
+    }
   });
 
   elPagedChapter.addEventListener("scroll", () => scheduleProgressSave());
