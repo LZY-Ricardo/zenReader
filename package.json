@@ -4,6 +4,7 @@
   "description": "Zen Reader VS Code extension.",
   "version": "0.0.1",
   "publisher": "zenreader",
+  "icon": "media/book.png",
   "packageManager": "pnpm@10.17.0",
   "engines": {
     "vscode": "^1.80.0"
@@ -25,7 +26,7 @@
         {
           "id": "zenReader",
           "title": "Zen Reader",
-          "icon": "media/zenReader.svg"
+          "icon": "media/book.png"
         }
       ]
     },
