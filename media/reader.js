@@ -538,6 +538,11 @@
   }
 
   function appendScrollChapter({ chapterId, title, html }) {
+    // 防止重复添加同一章节
+    if (state.scrollRendered.includes(chapterId)) {
+      return;
+    }
+
     state.scrollRendered.push(chapterId);
     const article = document.createElement("article");
     article.className = "zr-chapter zr-chapter-block";

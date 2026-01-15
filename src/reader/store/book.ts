@@ -39,7 +39,17 @@ export async function readChapterText(
     fullText = await readText(contentUri);
     contentCache.set(bookId, fullText);
   }
-  const text = fullText.slice(chapter.start, chapter.end);
+  let text = fullText.slice(chapter.start, chapter.end);
+
+  // 移除第一行（章节标题），因为我们已经通过 <h2> 标签显示了
+  const firstNewlineIndex = text.indexOf("\n");
+  if (firstNewlineIndex >= 0) {
+    text = text.slice(firstNewlineIndex + 1);
+  } else {
+    // 如果没有换行符，说明整个章节就是一行，清空它
+    text = "";
+  }
+
   return { chapter, text };
 }
 

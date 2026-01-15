@@ -146,8 +146,8 @@ input {
 
 .zr-reader--scroll .zr-scroll-wrap {
   padding: var(--zr-padding);
-  padding-top: 60px;
-  padding-bottom: 60px;
+  padding-top: 10px;
+  padding-bottom: 10px;
   display: flex;
   flex-direction: column;
   gap: 18px;
@@ -165,8 +165,8 @@ input {
 }
 
 .zr-reader--paged .zr-chapter-title {
-  margin: 50px var(--zr-padding) 10px var(--zr-padding);
-  margin-top: calc(var(--zr-padding) + 50px);
+  margin: 12px var(--zr-padding) 10px var(--zr-padding);
+  margin-top: calc(var(--zr-padding) + 12px);
 }
 
 .zr-reader--paged .zr-chapter p {
@@ -174,7 +174,7 @@ input {
 }
 
 .zr-reader--paged .zr-chapter p:first-child {
-  margin-top: 50px;
+  margin-top: 12px;
 }
 
 .zr-footer {
