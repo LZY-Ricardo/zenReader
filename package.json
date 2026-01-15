@@ -1,17 +1,30 @@
 {
   "name": "zen-reader",
   "displayName": "Zen Reader",
-  "description": "Zen Reader VS Code extension.",
+  "description": "A minimalist TXT novel reader for VS Code. Import your local TXT files and enjoy reading with chapter navigation, bookmarks, and dual reading modes (paged/scroll).",
   "version": "0.0.1",
   "publisher": "zenreader",
   "icon": "media/book.png",
   "packageManager": "pnpm@10.17.0",
   "engines": {
-    "vscode": "^1.80.0"
+    "vscode": "^1.90.0"
   },
   "categories": [
     "Other"
   ],
+  "keywords": [
+    "reader",
+    "novel",
+    "txt",
+    "book",
+    "reading",
+    "chinese"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/your-username/zen-reader"
+  },
+  "license": "MIT",
   "activationEvents": [
     "onStartupFinished",
     "onView:zenReader.reader",
@@ -62,6 +75,7 @@
   "devDependencies": {
     "@types/node": "^22.0.0",
     "@types/vscode": "^1.90.0",
+    "@vscode/vsce": "^3.7.1",
     "typescript": "^5.6.3"
   }
 }
