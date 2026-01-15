@@ -4,7 +4,9 @@
       "Bash(git rev-parse:*)",
       "Bash(python:*)",
       "Bash(git commit:*)",
-      "Bash(del:*)"
+      "Bash(del:*)",
+      "mcp__filesystem__directory_tree",
+      "Bash(npm run compile:*)"
     ]
   }
 }

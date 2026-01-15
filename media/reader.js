@@ -12,13 +12,15 @@
     fontSize: 16,
     pendingChapterRequest: null,
     scrollRendered: [],
-    scrollLoading: false
+    scrollLoading: false,
+    uiVisible: true,
+    uiLocked: false
   };
 
   const root = document.getElementById("app");
   root.innerHTML = `
     <div class="zr">
-      <div class="zr-toolbar">
+      <div id="toolbar" class="zr-toolbar">
         <select id="bookSelect" title="书籍"></select>
         <button id="importBtn" class="primary" title="导入 TXT">导入</button>
         <button id="removeBtn" title="移除当前书籍">移除</button>
@@ -37,7 +39,7 @@
           <div id="scrollWrap" class="zr-scroll-wrap"></div>
         </div>
 
-        <div class="zr-footer">
+        <div id="footer" class="zr-footer">
           <button id="prevChapterBtn" title="上一章">上一章</button>
           <button id="prevPageBtn" title="上一页">◀</button>
           <button id="nextPageBtn" title="下一页">▶</button>
@@ -48,6 +50,7 @@
           <button id="fontMinusBtn" title="字号减小">A-</button>
           <button id="fontPlusBtn" title="字号增大">A+</button>
           <button id="addBmBtn" class="primary" title="添加书签">+书签</button>
+          <button id="lockUiBtn" title="切换常驻显示">锁定</button>
         </div>
 
         <div id="drawer" class="zr-drawer" aria-hidden="true">
@@ -83,6 +86,9 @@
   const elFontMinus = byId("fontMinusBtn");
   const elFontPlus = byId("fontPlusBtn");
   const elAddBm = byId("addBmBtn");
+  const elLockUi = byId("lockUiBtn");
+  const elToolbar = byId("toolbar");
+  const elFooter = byId("footer");
   const elDrawer = byId("drawer");
   const elDrawerTitle = byId("drawerTitle");
   const elDrawerClose = byId("drawerCloseBtn");
@@ -115,12 +121,25 @@
   elFontPlus.addEventListener("click", () => adjustFont(+1));
 
   elAddBm.addEventListener("click", () => addBookmark());
+  elLockUi.addEventListener("click", () => toggleUiLock());
 
   elPrevChapter.addEventListener("click", () => jumpChapter(-1));
   elNextChapter.addEventListener("click", () => jumpChapter(+1));
 
   elPrevPage.addEventListener("click", () => pagedScrollBy(-1));
   elNextPage.addEventListener("click", () => pagedScrollBy(+1));
+
+  // 点击阅读区域切换工具栏显示/隐藏
+  elPaged.addEventListener("click", (e) => {
+    // 如果点击的是按钮等可交互元素,不切换
+    if (e.target.tagName === "BUTTON" || e.target.closest("button")) return;
+    toggleUiVisibility();
+  });
+
+  elScroll.addEventListener("click", (e) => {
+    if (e.target.tagName === "BUTTON" || e.target.closest("button")) return;
+    toggleUiVisibility();
+  });
 
   elPagedChapter.addEventListener("scroll", () => scheduleProgressSave());
   elScroll.addEventListener("scroll", () => {
@@ -220,7 +239,8 @@
       elModeScroll,
       elFontMinus,
       elFontPlus,
-      elAddBm
+      elAddBm,
+      elLockUi
     ];
     for (const el of ids) {
       el.disabled = !enabled;
@@ -648,5 +668,33 @@
 
   function escapeAttr(str) {
     return escapeHtml(str).replaceAll("`", "&#96;");
+  }
+
+  function toggleUiVisibility() {
+    if (state.uiLocked) return; // 锁定状态下不切换
+    state.uiVisible = !state.uiVisible;
+    applyUiVisibility();
+  }
+
+  function applyUiVisibility() {
+    if (state.uiVisible) {
+      elToolbar.classList.remove("hidden");
+      elFooter.classList.remove("hidden");
+    } else {
+      elToolbar.classList.add("hidden");
+      elFooter.classList.add("hidden");
+    }
+  }
+
+  function toggleUiLock() {
+    state.uiLocked = !state.uiLocked;
+    elLockUi.classList.toggle("locked", state.uiLocked);
+    elLockUi.textContent = state.uiLocked ? "解锁" : "锁定";
+
+    // 锁定时显示工具栏,解锁时恢复到可见状态
+    if (state.uiLocked) {
+      state.uiVisible = true;
+      applyUiVisibility();
+    }
   }
 })();

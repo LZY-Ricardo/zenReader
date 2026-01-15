@@ -259,6 +259,7 @@ export class ReaderViewProvider implements vscode.WebviewViewProvider {
   }
 
   private async openBook(bookId: string): Promise<void> {
+    this.log.appendLine(`[view] openBook: ${bookId}`);
     await setLastOpenedBook(this.context, bookId);
 
     const chapters = await loadChapters(this.context, bookId);
@@ -266,10 +267,15 @@ export class ReaderViewProvider implements vscode.WebviewViewProvider {
     const state = await loadInitState(this.context);
     const progress = state.session.progressByBook[bookId];
 
+    this.log.appendLine(`[view] chapters count: ${chapters.length}`);
+    this.log.appendLine(`[view] sending openBookResult...`);
+
     await this.postMessage({
       type: "library/openBookResult",
       payload: { bookId, chapters, bookmarks, progress }
     });
+
+    this.log.appendLine(`[view] openBookResult sent`);
   }
 
   private async sendChapter(bookId: string, chapterId: string): Promise<void> {
